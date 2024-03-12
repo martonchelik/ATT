@@ -1,0 +1,14 @@
+@if (control().invalid && (control().dirty || control().touched)) {
+  @if (validators().includes('required') && control().errors?.['required']) {
+    <span>{{ label() }} это обязательное поле.</span>
+  }
+  @if (validators().includes('whitespace') && control().errors?.['whitespace']) {
+    <span>{{ label() }} не может состоять только из пробелов.</span>
+  }
+  @if (validators().includes('minlength') && control().errors?.['minlength']) {
+    <span>{{ label() }} должно быть не менее {{ minLengthValue() }} символов.</span>
+  }
+  @if (validators().includes('maxlength') && control().errors?.['maxlength']) {
+    <span>{{ label() }} не должно превышать {{ maxLengthValue() }} символов.</span>
+  }
+}

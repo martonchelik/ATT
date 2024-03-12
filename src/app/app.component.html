@@ -1,13 +1,24 @@
-<div class="container">
-  <app-header></app-header>
-  <router-outlet></router-outlet>
-</div>
-<div class="container">
-  <app-header></app-header>
-  <router-outlet></router-outlet>
-</div>
-<div class="container">
-  <app-header></app-header>
-  <router-outlet></router-outlet>
-</div>
-<app-footer></app-footer>
+<header class="header">
+  <h1 class="title">Angular Task Tracker</h1>
+</header>
+<main>
+  <div class="container">
+    <button
+      class="load-tasks-button"
+      mat-raised-button
+      color="accent"
+      (click)="addMockTasks()"
+    >
+      Загрузить мок-данные
+    </button>
+    <button
+      class="clear-tasks-button"
+      mat-raised-button
+      color="accent"
+      (click)="clearTasks()"
+    >
+      Очистить всё
+    </button>
+    <router-outlet></router-outlet>
+  </div>
+</main>

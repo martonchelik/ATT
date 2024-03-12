@@ -1,0 +1,130 @@
+<div class="dialog-container mat-app-background mat-typography">
+  <h2 mat-dialog-title>{{ data.isEdit ? "Редактировать" : "Создать" }} задачу</h2>
+  <mat-dialog-content>
+    <form [formGroup]="form" class="form">
+      <mat-form-field
+        class="form-field mat-component-density-xs"
+        appearance="outline"
+      >
+        <mat-label>Название</mat-label>
+        <input matInput formControlName="title" type="text" />
+        <mat-error>
+          <app-mat-error
+            label="Название"
+            [control]="form.controls.title"
+            [validators]="['required', 'minlength', 'maxlength', 'whitespace']"
+          ></app-mat-error>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field
+        class="form-field mat-component-density-xs"
+        appearance="outline"
+      >
+        <mat-label>Статус</mat-label>
+        <mat-select formControlName="status" panelClass="select-panel">
+          @for (status of taskStatuses; track status) {
+          <mat-option [value]="status">
+            {{ statusLabels[status] }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field
+        class="form-field mat-component-density-xs"
+        appearance="outline"
+      >
+        <mat-label>Приоритет</mat-label>
+        <mat-select formControlName="priority" panelClass="select-panel">
+          @for (priority of taskPriorities; track priority) {
+          <mat-option [value]="priority">
+            {{ priorityLabels[priority - 1] }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field
+        class="form-field mat-component-density-xs"
+        appearance="outline"
+      >
+        <mat-label>Исполнитель</mat-label>
+        <input matInput formControlName="assignee" type="text" />
+        <mat-error>
+          <app-mat-error
+            label="Assignee"
+            [control]="form.controls.assignee"
+            [validators]="['maxlength']"
+          ></app-mat-error>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field
+        class="form-field mat-component-density-xs"
+        appearance="outline"
+      >
+        <mat-label>Создана</mat-label>
+        <input
+          matInput
+          [ngxMatDatetimePicker]="createdAtDatePicker"
+          type="datetime"
+          formControlName="createdAt"
+        />
+        <ngx-mat-datepicker-toggle
+          matSuffix
+          [for]="createdAtDatePicker"
+        ></ngx-mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #createdAtDatePicker [color]="'accent'">
+          <ngx-mat-datepicker-actions>
+            <button mat-button ngxMatDatepickerCancel>Отмена</button>
+            <button mat-raised-button color="accent" ngxMatDatepickerApply>
+              Применить
+            </button>
+          </ngx-mat-datepicker-actions></ngx-mat-datetime-picker
+        >
+      </mat-form-field>
+      <mat-form-field
+        class="form-field mat-component-density-xs"
+        appearance="outline"
+      >
+        <mat-label>Срок сдачи</mat-label>
+        <input
+          matInput
+          [matDatepicker]="dueDatePicker"
+          type="datetime"
+          formControlName="dueDate"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="dueDatePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #dueDatePicker [color]="'primary'">
+          </mat-datepicker
+        >
+      </mat-form-field>
+      <mat-form-field
+        class="form-field mat-component-density-xs"
+        appearance="outline"
+      >
+        <mat-label>Описание</mat-label>
+        <textarea
+          matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="5"
+          formControlName="description"
+        ></textarea>
+        <mat-error>
+          <app-mat-error
+            label="Описание"
+            [control]="form.controls.description"
+            [validators]="['maxlength']"
+          ></app-mat-error>
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button color="accent" mat-button [mat-dialog-close]="true">Закрыть</button>
+    <button color="accent" mat-raised-button (click)="save()">
+      {{ data.isEdit ? "Сохранить" : "Создать" }}
+    </button>
+  </mat-dialog-actions>
+</div>

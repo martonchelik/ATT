@@ -1,0 +1,107 @@
+<div class="board">
+  <div class="board-actions">
+    <h4>Сортировать</h4>
+    <div class="filters">
+      <mat-form-field class="input-field-standalone padding-r-s">
+        <mat-label title="Filter by title">По названию</mat-label>
+        <input matInput type="text" [formControl]="titleFilterControl" />
+        @if (titleFilterActive()) {
+        <button
+          mat-icon-button
+          matTooltip="Очистить"
+          matTooltipClass="app-tooltip"
+          (click)="clearFilters(true, false, false, false)"
+        >
+          <mat-icon svgIcon="close"></mat-icon>
+        </button>
+        }
+      </mat-form-field>
+      <mat-form-field class="input-field-standalone padding-r-s">
+        <mat-label title="Filter by assignee">По исполнителю</mat-label>
+        <input matInput type="text" [formControl]="assigneeFilterControl" />
+        @if (assigneeFilterActive()) {
+        <button
+          mat-icon-button
+          matTooltip="Очистить"
+          matTooltipClass="app-tooltip"
+          (click)="clearFilters(false, true, false, false)"
+        >
+          <mat-icon svgIcon="close"></mat-icon>
+        </button>
+        }
+      </mat-form-field>
+      <mat-form-field class="input-field-standalone padding-r-s">
+        <mat-label title="Filter by due">По сроку сдачи</mat-label>
+        <input matInput [matDatepicker]="dueDatePicker" type="datetime" formControlName="dueDate" [formControl]="dueFilterControl" value={null}/>
+        @if (dueFilterActive()) {
+        <button
+          mat-icon-button
+          matTooltip="Очистить"
+          matTooltipClass="app-tooltip"
+          (click)="clearFilters(false, false, true, false)"
+        >
+          <mat-icon svgIcon="close"></mat-icon>
+        </button>
+        }
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="dueDatePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #dueDatePicker [color]="'primary'" >
+          </mat-datepicker>
+      </mat-form-field>
+      <div class="prio-filter">
+        <mat-form-field class="select-field-standalone">
+          <mat-label title="Filter by priority">По приоритету</mat-label>
+          <mat-select
+            panelClass="select-panel"
+            multiple
+            [formControl]="prioritiesFilterControl"
+          >
+            @for (priority of taskPriorities; track priority) {
+            <mat-option [value]="priority">
+              {{ priorityLabels[priority - 1] }}
+            </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        @if (prioritiesFilterActive()) {
+        <button
+          mat-icon-button
+          matTooltip="Очистить"
+          matTooltipClass="app-tooltip"
+          (click)="clearFilters(false, false, false, true)"
+        >
+          <mat-icon svgIcon="reset"></mat-icon>
+        </button>
+        }
+      </div>
+    </div>
+    <button
+      class="task-add"
+      mat-icon-button
+      matTooltip="Создать новую задачу"
+      matTooltipClass="app-tooltip"
+      (click)="addTask()"
+    >
+      <mat-icon svgIcon="add"></mat-icon>
+    </button>
+  </div>
+  <div class="board-categories">
+    <app-task-category
+      [tasks]="toDoTasks()"
+      [title]="'К выполнению'"
+      [category]="TaskStatus.ToDo"
+    ></app-task-category>
+    <app-task-category
+      [tasks]="inProgressTasks()"
+      [title]="'В процессе'"
+      [category]="TaskStatus.InProgress"
+    ></app-task-category>
+    <app-task-category
+      [tasks]="completedTasks()"
+      [title]="'Выполнено'"
+      [category]="TaskStatus.Completed"
+    ></app-task-category>
+  </div>
+</div>
